@@ -1,0 +1,29 @@
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import numpy as np
+
+# Create a sample target variable for stock movement prediction (1 for 'up', 0 for 'down')
+# You can replace this with actual stock movement data if available
+df['stock_movement'] = np.random.choice([0, 1], size=len(df))
+
+# Prepare features (sentiment) and target (stock_movement)
+X = df[['s
+Hover over a message to pin it
+keep
+from telethon.sync import TelegramClient
+import pandas as pd
+import re
+
+# Replace with your API details from https://my.telegram.org/auth
+api_id = '854761'
+api_hash = '012345678954asdgfsa1234687213'
+phone_number = ''
+
+# Create the Telegram client
+client = TelegramClient('Stock Movement Analysis SMA', api_id, api_hash)
+
+async def scrape_telegram_channel(channel_username):
+    await client.start()
+    
+    # Get the messages from the chan
