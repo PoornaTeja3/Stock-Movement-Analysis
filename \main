@@ -1,0 +1,46 @@
+from telethon.sync import TelegramClient
+import pandas as pd
+import re
+
+# Replace with your API details from https://my.telegram.org/auth
+api_id = '854761'
+api_hash = '012345678954asdgfsa1234687213'
+phone_number = ''
+
+# Create the Telegram client
+client = TelegramClient('Stock Movement Analysis SMA', api_id, api_hash)
+
+async def scrape_telegram_channel(channel_username):
+    await client.start()
+    
+    # Get the messages from the channel
+    messages = await client.get_messages(channel_username, limit=1000)
+    
+    # Store messages in a list
+    message_data = []
+    for msg in messages:
+        message_data.append({
+            'date': msg.date,
+            'text': msg.text
+        })
+    
+    # Convert to pandas DataFrame for easier manipulation
+    df = pd.DataFrame(message_data)
+    await client.disconnect()
+    
+    return df
+
+# Example usage
+channel_username = '@Teja3bot'
+df = client.loop.run_until_complete(scrape_telegram_channel(channel_username))
+
+# Clean data by removing irrelevant characters, links, etc.
+def clean_text(text):
+    text = re.sub(r'http\S+', '', text)  # Remove URLs
+    text = re.sub(r'[^A-Za-z0-9 ]', '', text)  # Remove non-alphanumeric characters
+    text = text.lower()
+    return text
+
+df['cleaned_text'] = df['text'].apply(clean_text)
+
+print(df.head())
