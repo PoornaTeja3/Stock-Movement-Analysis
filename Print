@@ -1,0 +1,12 @@
+from textblob import TextBlob
+
+# Function to calculate sentiment polarity
+def get_sentiment(text):
+    blob = TextBlob(text)
+    return blob.sentiment.polarity  # Returns a value between -1 and 1
+
+# Apply sentiment analysis
+df['sentiment'] = df['cleaned_text'].apply(get_sentiment)
+
+# Display sentiment analysis result
+print(df[['date', 'cleaned_text', 'sentiment']].head())
